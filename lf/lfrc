@@ -1,5 +1,5 @@
 # Options
-set shell sh
+set shell zsh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
@@ -14,15 +14,15 @@ map x cut
 map y copy
 map p paste
 map r reload
+map E extract
 map d trash
+map D cleantrash
 map c clear
 map B bulkrename
-map E extract
-map D cleantrash
-map <c-n> push :touch<space>
-map <c-N> push :mkdir<space>
-map <c-f> $lf -remote "send $id select \"$(fzf)\""
+map <c-t> push :touch<space>
+map <c-n> push :mkdir<space>
 map <c-r> push :rename<space>
+map <c-f> $lf -remote "send $id select \"$(fzf)\""
 map gg top
 map gh cd ~/
 map gD cd ~/Documents
