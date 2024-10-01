@@ -1,0 +1,127 @@
+## Initialisation
+autoload -U colors && colors
+PS1="%B%{$fg[white]%}[%{$fg[white]%}%n%{$fg[white]%}@%{$fg[white]%}%M %{$fg[cyan]%}%~%{$fg[white]%}]%{$reset_color%}$%b "
+
+## Options
+setopt share_history
+setopt append_history
+setopt autocd
+# stty stop undef
+# setopt interactive_comments
+
+## History
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.histfile
+
+## Aliases
+
+# File and Directory Navigation
+alias ls="ls -hN --color=auto --group-directories-first"
+alias ..="cd .."
+
+# File Operations
+alias cp="sudo cp -iv"
+alias mv="sudo mv -iv"
+alias mkdir="mkdir -pv"
+alias delete="sudo mv -t ~/.local/share/Trash/files/"
+
+# System Utilities
+alias copy="xclip -selection clipboard"
+alias compare="vimdiff"
+
+# Package Management
+alias update="sync && sudo pacman -Syyu --noconfirm"
+alias add="sudo pacman -Syyu --noconfirm"
+alias install="yay"
+alias remove="sudo pacman -Rns --noconfirm"
+alias search="pacman -Ss"
+alias list="echo; echo \"All Explicitly Installed Packages:\"; echo; pacman -Qe; echo; echo \"AUR Packages:\"; echo; pacman -Qm; echo"
+
+# System Maintenance
+alias clean="sudo pacman -Rns --noconfirm $(pacman -Qdtq)"
+alias cleanall="sudo pacman -Rns --noconfirm $(pacman -Qdtq); sudo pacman -Scc; yay -Scc; sudo journalctl --vacuum-size=100M"
+alias sync="sudo reflector --country india --age 12 --latest 3 --sort rate --protocol https --save /etc/pacman.d/mirrorlist > /dev/null 2>&1"
+
+# Trash Management
+alias showtrash="ls -a ~/.local/share/Trash/files/"
+alias cleantrash="sudo rm -rf ~/.local/share/Trash/files/*"
+
+# Python
+alias on="source ~/Documents/Projects/pyvenv/activate"
+alias off="deactivate"
+
+## Environment Variables
+export EDITOR="nvim"
+export VISUAL="nvim"
+export SUDO_EDITOR="nvim"
+
+## Tab Autocomplete
+autoload -U compinit
+zstyle ":completion:*" menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+
+## Vim Bindings
+bindkey -v
+export KEYTIMEOUT=1
+
+# Vim Bindings for Tab Autocomplete
+bindkey -M menuselect "h" vi-backward-char
+bindkey -M menuselect "k" vi-up-line-or-history
+bindkey -M menuselect "l" vi-forward-char
+bindkey -M menuselect "j" vi-down-line-or-history
+bindkey -v "^?" backward-delete-char
+
+## Cursor Shape for Different Vim Modes 
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne "\e[1 q";;      # Block
+        viins|main) echo -ne "\e[5 q";; # Beam
+    esac
+}
+
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins                 # Initiate `vi insert` as Keymap (Can Be Removed if `bindkey -V` Has Been Set Elsewhere)
+    echo -ne "\e[5 q"
+}
+
+zle -N zle-line-init
+echo -ne "\e[5 q"                # Beam Shape Cursor on Startup
+preexec() { echo -ne "\e[5 q" ;  # Beam Shape Cursor for Each New Prompt
+}
+
+# LF to Switch Directories (ctrl+o)
+lfcd () {
+    tmp="$(mktemp -uq)"
+    trap "rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT" HUP INT QUIT TERM PWR EXIT
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+
+## Key Bindings
+bindkey "^[[1;5D" backward-word # Ctrl + <-
+bindkey "^[[1;5C" forward-word  # Ctrl + ->
+bindkey "^a" beginning-of-line  # Ctrl + a
+bindkey "^l" end-of-line        # Ctrl + l
+bindkey -s "^o" "^ulfcd\n"      # Ctrl + o
+bindkey -s "^f" "^ucd '$(dirname '$(fzf)')'\n" # Ctrl + f
+bindkey "^[[3~" delete-char     # Delete
+
+## Edit Current Command in Text Editor (ctrl+e)
+autoload edit-command-line; zle -N edit-command-line
+bindkey "^e" edit-command-line
+bindkey -M vicmd "^e" edit-command-line
+bindkey -M visual "^[[3~" vi-delete
+bindkey -M vicmd "^[[3~" vi-delete-char
+
+## Plugins
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# history-substring-search
+# auto-notify
