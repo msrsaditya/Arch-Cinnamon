@@ -1,5 +1,5 @@
 # Options
-set shell zsh
+set shell sh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
@@ -13,13 +13,15 @@ map . set hidden!
 map x cut
 map y copy
 map p paste
-map c clear
 map r reload
-map E extract
 map d trash
+map c clear
+map B bulkrename
+map E extract
 map D cleantrash
-map <c-t> push :touch<space>
-map <c-n> push :mkdir<space>
+map <c-n> push :touch<space>
+map <c-N> push :mkdir<space>
+map <c-f> $lf -remote "send $id select \"$(fzf)\""
 map <c-r> push :rename<space>
 map gg top
 map gh cd ~/
@@ -27,7 +29,8 @@ map gD cd ~/Documents
 map gd cd ~/Downloads
 map gp cd ~/Pictures
 map gc cd ~/.config
-map gs cd /usr/local/bin/
+map gs cd /usr/local/bin/Scripts
+map gt cd ~/.local/share/Trash/files
 
 # Opening Files
 cmd open &{{
@@ -41,30 +44,46 @@ cmd open &{{
 cmd touch $touch "$(echo $* | tr ' ' '\ ')"
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+cmd bulkrename ${{
+    tmpfile_old="$(mktemp)"
+    tmpfile_new="$(mktemp)"
+
+    [ -n "$fs" ] && fs=$(basename -a $fs) || fs=$(ls)
+
+    echo "$fs" > "$tmpfile_old"
+    echo "$fs" > "$tmpfile_new"
+    $EDITOR "$tmpfile_new"
+
+    [ "$(wc -l < "$tmpfile_old")" -eq "$(wc -l < "$tmpfile_new")" ] || { rm -f "$tmpfile_old" "$tmpfile_new"; exit 1; }
+
+    paste "$tmpfile_old" "$tmpfile_new" | while IFS="$(printf '\t')" read -r src dst
+    do
+        [ "$src" = "$dst" ] || [ -e "$dst" ] || mv -- "$src" "$dst"
+    done
+
+    rm -f "$tmpfile_old" "$tmpfile_new"
+    lf -remote "send $id unselect"
+}}
 
 # Trashing Files
 cmd trash ${{ 
     if [[ -n "$fs" ]]; then
         for file in $fs; do
-            trash -v -F "$file"
+            sudo mv "$file" ~/.local/share/Trash/files/
         done
     else
-        trash -v -F "$f"
+        sudo mv "$f" ~/.local/share/Trash/files/
     fi
 }}
 
-# Cleaning Trash Files
 cmd cleantrash ${{ 
-    if [[ -n "$fs" ]]; then
-        for file in $fs; do
-            trash -s "$file"
-        done
-    else
-        trash -s "$f"
+    read -rp "Are you sure you want to DELETE all trash PERMANENTLY? Type 'YES' in all caps to confirm: " confirm
+    if [[ "$confirm" == "YES" ]]; then
+        sudo rm -rif ~/.local/share/Trash/files/*
     fi
 }}
 
-# Extracting Files
+# Archive Extraction
 cmd extract ${{
     set -f
     case $f in
