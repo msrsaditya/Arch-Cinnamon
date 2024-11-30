@@ -33,6 +33,7 @@ alias display-on="sudo vbetool dpms on"
 alias display-off="sudo vbetool dpms off"
 alias gui="sudo systemctl start lightdm.service"
 alias tui="sudo chvt 1"
+alias download="aria2c"
 
 # Package Management
 alias update="sync && sudo pacman -Syyu --noconfirm"
