@@ -29,6 +29,10 @@ alias delete="sudo mv -t ~/.local/share/Trash/files/"
 # System Utilities
 alias copy="xclip -selection clipboard"
 alias compare="vimdiff"
+alias display-on="sudo vbetool dpms on"
+alias display-off="sudo vbetool dpms off"
+alias gui="sudo systemctl start lightdm.service"
+alias tui="sudo chvt 1"
 
 # Package Management
 alias update="sync && sudo pacman -Syyu --noconfirm"
@@ -48,8 +52,15 @@ alias showtrash="ls -a ~/.local/share/Trash/files/"
 alias cleantrash="sudo rm -rf ~/.local/share/Trash/files/*"
 
 # Python
-alias on="source ~/Documents/Projects/pyvenv/activate"
+alias on="source ~/Documents/Projects/.venv/bin/activate"
 alias off="deactivate"
+alias mac="ssh shashank@192.168.29.9"
+mac-share() {
+    local file_path
+    echo -n "Enter the Path: ~/"
+    read -r file_path
+    scp -r ~/"$file_path" shashank@192.168.29.9:/Users/shashank/Downloads/
+}
 
 ## Environment Variables
 export EDITOR="nvim"
