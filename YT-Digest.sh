@@ -43,27 +43,28 @@ while IFS= read -r url || [[ -n "$url" ]]; do
     output_file_html="Daily Reader/$output_file.html"
     output_file_wav="Daily Digest/$output_file.wav"
     
-    # Generate Temporary Markdown for HTML Conversion Later
+    # Generate Temporary Markdown for HTML Conversion and Temporary TXT for Piper Use
     temp_md=$(mktemp).md
     temp_txt=$(mktemp).txt
     
-    # Give the Formatted Transcript to the Llama3.2 Model for Summary with Custom Instructions
+    # Give the Formatted Transcript to the Llama3.2 Model for Summary
     echo "Generating Summary for Video $video_counter..."
     (echo "$transcript" | ollama run llama3.2 "Summarize this YouTube Video Transcript: $transcript") > "$temp_md"
     
     # Convert Markdown to HTML and TXT Using Pandoc for Easy Readability
-    echo "Converting Video $video_counter into Readable and Audible Format..."
+    echo "Converting Video $video_counter into Readable Format..."
     pandoc "$temp_md" -s -o "$output_file_html" --css=style.css --metadata title="$title"
     pandoc "$temp_md" -t plain -o "$temp_txt"
     cp style.css "Daily Reader"
     
     # Create Audio Version Using Text from Markdown
-    cat "$temp_txt" | ~/.piper/piper --length_scale 1.5 --model ~/.piper/en_US-danny-low.onnx --output_file "$output_file_wav"
+    echo "Converting Video $video_counter into Audible Format..."
+    cat "$temp_txt" | ~/.piper/piper --length_scale 1.5 --model ~/.piper/en_US-danny-low.onnx --output_file "$output_file_wav" > /dev/null 2>&1
     
     # Remove temporary markdown file
     rm "$temp_md" "$temp_txt"
     
-    # Print "video X processed"
+    # Print Success Acknowledgment Message
     echo "Video $video_counter Successfully Processed!"
     echo "-------------------------------------------"
     
