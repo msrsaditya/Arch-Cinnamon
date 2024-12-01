@@ -4,18 +4,20 @@
     "title",
     "separator",
     "os",
-    "host",
     "kernel",
-    "uptime",
-    "packages",
-    "shell",
-    "de",
-    "wm",
-    "terminal",
+    "host",
     "cpu",
     "gpu",
     "memory",
+    "de",
+    "wm",
+    "terminal",
+    "shell",
+    "packages",
+    "uptime",
+    "localip",
     "break",
-    "colors"
+    "colors",
+    "break"
   ]
 }
