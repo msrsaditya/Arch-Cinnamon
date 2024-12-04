@@ -110,17 +110,6 @@
         "sys_enc": "UTF-8",
         "sys_lang": "en_US.UTF-8"
     },
-    "mirror_config": {
-        "custom_mirrors": [],
-        "mirror_regions": {
-            "Worldwide": [
-                "{\"url\":\"http://mirror.rackspace.com/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"Worldwide\",\"country_code\":\"\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/rackspace.com/712/\",\"delay\":19509,\"last_sync\":\"2024-12-04T14:29:40Z\",\"duration_avg\":0.28095277718135286,\"duration_stddev\":0.16487056612293144,\"completion_pct\":1.0,\"score\":6}",
-                "{\"url\":\"https://mirror.rackspace.com/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"Worldwide\",\"country_code\":\"\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/rackspace.com/1316/\",\"delay\":19277,\"last_sync\":\"2024-12-04T14:29:40Z\",\"duration_avg\":0.22903168326929996,\"duration_stddev\":0.4153499692104909,\"completion_pct\":0.9693877551020408,\"score\":6}",
-                "{\"url\":\"https://ftpmirror.infania.net/mirror/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"Worldwide\",\"country_code\":\"\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/infania.net/2176/\",\"delay\":5381,\"last_sync\":\"2024-12-04T16:46:01Z\",\"duration_avg\":0.5639119108295974,\"duration_stddev\":0.7663777991396854,\"completion_pct\":1.0,\"score\":3}",
-                "{\"url\":\"https://geo.mirror.pkgbuild.com/\",\"protocol\":\"https\",\"active\":true,\"country\":\"Worldwide\",\"country_code\":\"\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/geo.mirror.pkgbuild.com/1721/\",\"delay\":99,\"last_sync\":\"2024-12-04T18:31:00Z\",\"duration_avg\":0.255659003497502,\"duration_stddev\":0.24460091307442758,\"completion_pct\":1.0,\"score\":1}"
-            ]
-        }
-    },
     "network_config": {
         "type": "iso"
     },
