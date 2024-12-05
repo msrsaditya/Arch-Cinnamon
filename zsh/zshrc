@@ -29,7 +29,7 @@ alias copy="xclip -selection clipboard"
 alias compare="vimdiff"
 alias display-on="sudo vbetool dpms on"
 alias display-off="sudo vbetool dpms off"
-alias gui="sudo systemctl start lightdm.service"
+alias gui="sudo systemctl start NetworkManager.service touchegg.service lightdm.service"
 alias tui="sudo chvt 1"
 alias download="aria2c"
 
