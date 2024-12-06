@@ -23,7 +23,7 @@
 | **Network Configuration**| ISO                                                                      |
 | **NTP**                | Enabled (Time Synchronization)                                             |
 | **Packages**           | None                                                                      |
-| **Parallel Downloads** | 0                                                                         |
+| **Parallel Downloads** | 5                                                                         |
 | **Profile Configuration** | **Profile Type:** Minimal                                               |
 |                         | **Custom Settings:** None                                                |
 | **Swap**               | Enabled                                                                   |
