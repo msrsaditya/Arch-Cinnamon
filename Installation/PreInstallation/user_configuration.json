@@ -115,7 +115,7 @@
     },
     "ntp": true,
     "packages": [],
-    "parallel downloads": 0,
+    "parallel downloads": 5,
     "profile_config": {
         "gfx_driver": null,
         "greeter": null,
