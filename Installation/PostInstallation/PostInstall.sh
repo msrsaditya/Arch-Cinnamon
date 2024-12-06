@@ -60,7 +60,7 @@ echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Create Necessary Folders and Files
 xdg-user-dirs-update
-mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/ ~/Documents/Projects/YT-Digest/
+mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/
 
 git clone "https://github.com/msrsaditya/Arch-Cinnamon"
 
@@ -71,18 +71,13 @@ cp ~/Arch-Cinnamon/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml \
     ~/Arch-Cinnamon/lf/icons ~/.config/lf/icons \
     ~/Arch-Cinnamon/lf/lfrc ~/.config/lf/lfrc \
     ~/Arch-Cinnamon/nvim/init.lua ~/.config/nvim/init.lua \
-    ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc \
-    ~/Arch-Cinnamon/YT-Digest.sh ~/Documents/Projects/YT-Digest/ \
-    ~/Arch-Cinnamon/style.css ~/Documents/Projects/YT-Digest/
-
-touch ~/Documents/Projects/YT-Digest/URL.txt
-chmod +x ~/Documents/Projects/YT-Digest/YT-Digest.sh
+    ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc
 
 rm -rf Arch-Cinnamon
 
 # Create a Python Virtual Environment
 python -m venv Documents/Projects/.venv
-pip install --upgrade pip youtube-transcript-api
+pip install --upgrade pip
 
 # Setup SSH
 systemctl enable sshd
