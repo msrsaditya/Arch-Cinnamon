@@ -1,7 +1,15 @@
 #!/bin/bash
 
+## Package Management
+
 # Update Everything and Clean
 pacman -Syyu --noconfirm && pacman -Rns --noconfirm $(pacman -Qdtq)
+
+# Pacman Configuration Edit
+sed -i '/^#Color/s/^#//' /etc/pacman.conf
+sed -i '/^#ParallelDownloads/s/^#//' /etc/pacman.conf
+grep -q "^ILoveCandy" /etc/pacman.conf || echo "ILoveCandy" >> /etc/pacman.conf
+sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 
 # Install Necessary Applications from Official Repos
 pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
@@ -12,19 +20,18 @@ cd yay && makepkg -si && cd
 rm -rf yay
 
 # Install Necessary Applications from AUR
-yay -S --noconfirm brave-bin mint-themes mint-y-icons yay file-roller-linuxmint jmtpfs gnome-calculator-gtk3
+yay -S --noconfirm brave-bin file-roller-linuxmint gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
 
-# Change shell to ZSH
-chsh -s $(which zsh)
+## Login Behavior
+
+# Turn Off Mitigations and Skip Grub on Login
+sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/"$/ mitigations=off"/' /etc/default/grub
+sed -i '/^GRUB_TIMEOUT=/d' /etc/default/grub
+echo "GRUB_TIMEOUT=0" >> /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # Login to TTY, not GUI by Default
 systemctl set-default multi-user.target
-
-# Turn off Suspend on Lid Close
-sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLidSwitchDocked=/d' /etc/systemd/logind.conf
-echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" >> /etc/systemd/logind.conf
-
-systemctl restart systemd-logind.service
 
 # Setup Auto Login in LightDM (if using GUI as default)
 sed -i '/^autologin-user=/d; /^autologin-user-timeout=/d; /^autologin-session=/d' /etc/lightdm/lightdm.conf
@@ -40,29 +47,18 @@ gpasswd -a user nopasswdlogin
 # Remove Chromium Password Prompt on Auto Login
 rm ~/.local/share/keyrings/*
 
+# Turn off Suspend on Lid Close
+sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLidSwitchDocked=/d' /etc/systemd/logind.conf
+echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" >> /etc/systemd/logind.conf
+
+systemctl restart systemd-logind.service
+
 # Remove Repeated Authentication Prompting in CLI
 echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-## Improve Performance
-
-# Turn Off Mitigations and Skip Grub on Login
-sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/"$/ mitigations=off"/' /etc/default/grub
-sed -i '/^GRUB_TIMEOUT=/d' /etc/default/grub
-echo "GRUB_TIMEOUT=0" >> /etc/default/grub
-grub-mkconfig -o /boot/grub/grub.cfg
-
-# Pacman Configuration Edit
-sed -i '/^#Color/s/^#//' /etc/pacman.conf
-sed -i '/^#ParallelDownloads/s/^#//' /etc/pacman.conf
-grep -q "^ILoveCandy" /etc/pacman.conf || echo "ILoveCandy" >> /etc/pacman.conf
-sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
-
-# Remove Unnecessary Files
-rm -rf ~/.bash_history ~/.bash_logout ~/.bash_profile ~/.bashrc ~/.cache
-
 ## Copy Configs from GitHub
 
-# Create necessary folders and files
+# Create Necessary Folders and Files
 xdg-user-dirs-update
 mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/ ~/Documents/Projects/YT-Digest/
 
@@ -88,9 +84,23 @@ rm -rf Arch-Cinnamon
 python -m venv Documents/Projects/.venv
 pip install --upgrade pip groq youtube-transcript-api
 
+# Setup Piper TTS
+wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/danny/low/en_US-danny-low.onnx"
+wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/danny/low/en_US-danny-low.onnx.json"
+wget "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz"
+tar -xzvf piper_linux_x86_64.tar.gz
+mv en_US-danny-low.onnx en_US-danny-low.onnx.json piper_linux_x86_64
+mv piper_linux_x86_64 ~/.piper
+
 # Setup SSH
 systemctl enable sshd
 ssh-keygen -t ed25519 -C "linux-ssh-key"
 ssh-copy-id shashank@192.168.29.9
-ip addr show wlan0
+# ip addr show wlan0
 # ssh shashank@192.168.29.9
+
+# Change Shell to ZSH
+chsh -s $(which zsh)
+
+# Remove Unnecessary Files
+rm -rf ~/.bash_history ~/.bash_logout ~/.bash_profile ~/.bashrc ~/.cache
