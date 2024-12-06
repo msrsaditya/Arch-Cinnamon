@@ -82,15 +82,7 @@ rm -rf Arch-Cinnamon
 
 # Create a Python Virtual Environment
 python -m venv Documents/Projects/.venv
-pip install --upgrade pip groq youtube-transcript-api
-
-# Setup Piper TTS
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/danny/low/en_US-danny-low.onnx"
-wget "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/danny/low/en_US-danny-low.onnx.json"
-wget "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz"
-tar -xzvf piper_linux_x86_64.tar.gz
-mv en_US-danny-low.onnx en_US-danny-low.onnx.json piper_linux_x86_64
-mv piper_linux_x86_64 ~/.piper
+pip install --upgrade pip youtube-transcript-api
 
 # Setup SSH
 systemctl enable sshd
