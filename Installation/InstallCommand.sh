@@ -1,3 +1,5 @@
+# Takes Roughly 30 (14+16) Minutes for Complete Installation from Scratch
+
 ## Prerequisite Commands for Pre-Installation
 
 # iwctl
