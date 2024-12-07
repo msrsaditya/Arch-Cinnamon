@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Remove Repeated Authentication Prompting in CLI
+echo "user ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
+
 ## Package Management
 
 # Update Everything and Clean
@@ -12,7 +15,7 @@ sudo sed -i '/ParallelDownloads = 10/a ILoveCandy' /etc/pacman.conf
 sudo sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 
 # Install Necessary Applications from Official Repos
-sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
+sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip python-pip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
 
 # Install Yay AUR Helper
 git clone https://aur.archlinux.org/yay.git
@@ -22,7 +25,8 @@ cd
 rm -rf yay
 
 # Install Necessary Applications from AUR
-yay -S --noconfirm brave-bin file-roller-linuxmint gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
+yay -S --noconfirm brave-bin gnome-calculator-gtk3 jmtpfs mint-y-icons
+# file-roller-linuxmint mint-themes
 
 ### Login Behavior
 
@@ -69,14 +73,12 @@ sudo sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLi
 echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf
 sudo systemctl restart systemd-logind.service
 
-# Remove Repeated Authentication Prompting in CLI
-echo "user ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
-
 ## Copy Configs from GitHub
 
 # Create Necessary Folders and Files
 xdg-user-dirs-update
 mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/
+touch ~/.zshrc
 
 git clone "https://github.com/msrsaditya/Arch-Cinnamon"
 
