@@ -15,12 +15,16 @@ sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
 
 # Install Yay AUR Helper
+sudo -u user bash <<EOF
 git clone https://aur.archlinux.org/yay.git
-cd yay && makepkg -si && cd
+cd yay
+makepkg -si --noconfirm
+cd
 rm -rf yay
 
 # Install Necessary Applications from AUR
 yay -S --noconfirm brave-bin file-roller-linuxmint gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
+EOF
 
 ## Login Behavior
 
@@ -79,10 +83,10 @@ rm -rf Arch-Cinnamon
 python -m venv Documents/Projects/.venv
 pip install --upgrade pip
 
-# Setup SSH
+## Setup SSH
 systemctl enable sshd
-ssh-keygen -t ed25519 -C "linux-ssh-key"
-ssh-copy-id shashank@192.168.29.9
+# ssh-keygen -t ed25519 -C "linux-ssh-key"
+# ssh-copy-id shashank@192.168.29.9
 # ip addr show wlan0
 # ssh shashank@192.168.29.9
 
