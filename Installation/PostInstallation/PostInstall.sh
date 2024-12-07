@@ -28,6 +28,9 @@ rm -rf yay
 yay -S --noconfirm brave-bin gnome-calculator-gtk3 jmtpfs mint-y-icons
 # file-roller-linuxmint mint-themes
 
+# Update Everything and Clean Again
+sudo pacman -Syyu --noconfirm && sudo pacman -Rns --noconfirm $(pacman -Qdtq)
+
 ### Login Behavior
 
 ## Bootloader
