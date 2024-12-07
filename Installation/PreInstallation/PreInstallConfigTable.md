@@ -22,7 +22,7 @@
 |                         | **System Language:** en_US.UTF-8                                         |
 | **Network Configuration**| ISO                                                                      |
 | **NTP**                | Enabled (Time Synchronization)                                             |
-| **Packages**           | None                                                                      |
+| **Packages**           | wget                                                                      |
 | **Parallel Downloads** | 0                                                                         |
 | **Profile Configuration** | **Profile Type:** Minimal                                               |
 |                         | **Custom Settings:** None                                                |
