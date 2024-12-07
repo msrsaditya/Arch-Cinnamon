@@ -114,8 +114,8 @@
         "type": "iso"
     },
     "ntp": true,
-    "packages": [],
-    "parallel downloads": 0,
+    "packages": ["wget"],
+    "parallel downloads": 10,
     "profile_config": {
         "gfx_driver": null,
         "greeter": null,
