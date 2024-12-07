@@ -53,8 +53,8 @@ sudo systemctl enable getty@tty1.service
 
 # Setup Auto Login in LightDM (for using GUI as default)
 sudo sed -i '/^autologin-user=/d; /^autologin-user-timeout=/d; /^autologin-session=/d' /etc/lightdm/lightdm.conf
-echo -e "[Seat:*]\nautologin-user=user\nautologin-user-timeout=0\nautologin-session=cinnamon" >> sudo tee -a /etc/lightdm/lightdm.conf
-echo "auth required pam_succeed_if.so user ingroup nopasswdlogin" >> sudo tee -a /etc/pam.d/lightdm
+echo -e "[Seat:*]\nautologin-user=user\nautologin-user-timeout=0\nautologin-session=cinnamon" | sudo tee -a /etc/lightdm/lightdm.conf
+echo "auth required pam_succeed_if.so user ingroup nopasswdlogin" | sudo tee -a /etc/pam.d/lightdm
 
 groupadd -r autologin
 groupadd -r nopasswdlogin
@@ -66,11 +66,11 @@ rm ~/.local/share/keyrings/*
 
 # Turn off Suspend on Lid Close
 sudo sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLidSwitchDocked=/d' /etc/systemd/logind.conf
-echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" >> sudo tee -a /etc/systemd/logind.conf
+echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf
 sudo systemctl restart systemd-logind.service
 
 # Remove Repeated Authentication Prompting in CLI
-echo "user ALL=(ALL) NOPASSWD: ALL" >> sudo tee -a /etc/sudoers
+echo "user ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
 
 ## Copy Configs from GitHub
 
