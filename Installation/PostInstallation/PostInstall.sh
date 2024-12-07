@@ -7,8 +7,8 @@ pacman -Syyu --noconfirm && pacman -Rns --noconfirm $(pacman -Qdtq)
 
 # Pacman Configuration Edit
 sed -i '/^#Color/s/^#//' /etc/pacman.conf
-sed -i '/^#ParallelDownloads/s/^#//' /etc/pacman.conf
-grep -q "^ILoveCandy" /etc/pacman.conf || echo "ILoveCandy" >> /etc/pacman.conf
+sed -i 's/^#*ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
+sed -i '/ParallelDownloads = 10/a ILoveCandy' /etc/pacman.conf
 sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 
 # Install Necessary Applications from Official Repos
