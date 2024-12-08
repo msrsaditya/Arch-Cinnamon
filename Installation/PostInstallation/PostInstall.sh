@@ -112,7 +112,8 @@ sudo systemctl enable sshd
 
 # Change Shell to ZSH
 sudo chsh -s $(which zsh)
-source ~/.zshrc
 
 # Remove Unnecessary Files
 rm -rf ~/.bash_history ~/.bash_logout ~/.bash_profile ~/.bashrc ~/.cache
+
+# Restart Now
