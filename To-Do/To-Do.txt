@@ -16,3 +16,7 @@
 5. libreoffice compatibility file check
 
 6. add these to the original git repo
+
+1. check for themes, fonts, sizes etc. used in linuxmint official
+2. fix libreoffice after everything -- dad perfect, also look at other to-do's
+3. download instructions for piper voice and yt digest setup
