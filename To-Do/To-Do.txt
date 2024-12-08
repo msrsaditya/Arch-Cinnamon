@@ -20,3 +20,5 @@
 1. check for themes, fonts, sizes etc. used in linuxmint official
 2. fix libreoffice after everything -- dad perfect, also look at other to-do's
 3. download instructions for piper voice and yt digest setup
+
+Create webpage for pre install and post install, where only sensible options can be changed like user, password etc. and based on the selection, a new script will be created , which can be uploaded to 0x0 st, and instructions on how to install will be provided , if followed, full installation can be done
