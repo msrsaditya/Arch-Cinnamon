@@ -1,4 +1,4 @@
-### Takes Roughly 30 (14+16) Minutes for Complete Installation from Scratch
+### Takes Roughly 35 (15+20) Minutes for Complete Installation from Scratch
 
 ## Prerequisite Commands for Pre-Installation
 
@@ -8,14 +8,14 @@
 
 ## Use Either Full Link or Shortened Bitly Link
 
-# Pre-Installation (~14 Minutes)
+# Pre-Installation (~15 Minutes)
 
 archinstall --config https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PreInstallation/user_configuration.json --creds https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PreInstallation/user_credentials.json
 archinstall --config https://bit.ly/4ii7E5n --creds https://bit.ly/4fUn4uO
 
 ## Reboot Now
 
-# Post-Installation (~16 Minutes)
+# Post-Installation (~20 Minutes)
 
 wget "https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PostInstallation/PostInstall.sh"
 wget --content-disposition "https://bit.ly/3Vqxlqr"
