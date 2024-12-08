@@ -25,10 +25,10 @@ cd
 rm -rf yay
 
 # Install Necessary Applications from AUR
-yay -S --noconfirm brave-bin gnome-calculator-gtk3 jmtpfs mint-y-icons
-# file-roller-linuxmint mint-themes
+yay -S --noconfirm brave-bin gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
+# file-roller-linuxmint
 
-# Update Everything and Clean Again
+# Update Everything and Clean, Again
 sudo pacman -Syyu --noconfirm && sudo pacman -Rns --noconfirm $(pacman -Qdtq)
 
 ### Login Behavior
@@ -84,7 +84,7 @@ git clone "https://github.com/msrsaditya/Arch-Cinnamon"
 xdg-user-dirs-update
 mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/
 
-# Copy
+# Copy Them
 cp ~/Arch-Cinnamon/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 cp ~/Arch-Cinnamon/aria2/aria2.conf ~/.config/aria2/aria2.conf
 cp ~/Arch-Cinnamon/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
