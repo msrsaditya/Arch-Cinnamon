@@ -122,13 +122,13 @@
         }
     },
     "network_config": {
-        "type": "iso"
+        "type": "nm"
     },
     "ntp": true,
     "packages": ["wget"],
     "parallel downloads": 10,
     "profile_config": {
-        "gfx_driver": null,
+        "gfx_driver": "All open-source",
         "greeter": null,
         "profile": {
             "custom_settings": {},
