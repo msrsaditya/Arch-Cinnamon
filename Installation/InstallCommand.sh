@@ -13,6 +13,8 @@
 archinstall --config https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PreInstallation/user_configuration.json --creds https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PreInstallation/user_credentials.json
 archinstall --config https://bit.ly/4ii7E5n --creds https://bit.ly/4fUn4uO
 
+## Reboot Now
+
 # Post-Installation (~16 Minutes)
 
 wget "https://raw.githubusercontent.com/msrsaditya/Arch-Cinnamon/refs/heads/main/Installation/PostInstallation/PostInstall.sh"
