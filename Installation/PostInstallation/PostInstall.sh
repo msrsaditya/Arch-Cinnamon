@@ -15,7 +15,7 @@ sudo sed -i '/ParallelDownloads = 10/a ILoveCandy' /etc/pacman.conf
 sudo sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 
 # Install Necessary Applications from Official Repos
-sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip python-pip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
+sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip python python-pip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
 
 # Install Yay AUR Helper
 git clone https://aur.archlinux.org/yay.git
@@ -63,10 +63,10 @@ sudo sed -i '/^autologin-user=/d; /^autologin-user-timeout=/d; /^autologin-sessi
 echo -e "[Seat:*]\nautologin-user=user\nautologin-user-timeout=0\nautologin-session=cinnamon" | sudo tee -a /etc/lightdm/lightdm.conf
 echo "auth required pam_succeed_if.so user ingroup nopasswdlogin" | sudo tee -a /etc/pam.d/lightdm
 
-groupadd -r autologin
-groupadd -r nopasswdlogin
-gpasswd -a user autologin
-gpasswd -a user nopasswdlogin
+sudo groupadd -r autologin
+sudo groupadd -r nopasswdlogin
+sudo gpasswd -a user autologin
+sudo gpasswd -a user nopasswdlogin
 
 # Remove Chromium Password Prompt on Auto Login
 rm ~/.local/share/keyrings/*
@@ -78,27 +78,30 @@ sudo systemctl restart systemd-logind.service
 
 ## Copy Configs from GitHub
 
-# Create Necessary Folders and Files
-xdg-user-dirs-update
-mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/
-touch ~/.zshrc
-
 git clone "https://github.com/msrsaditya/Arch-Cinnamon"
 
-cp ~/Arch-Cinnamon/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml \
-    ~/Arch-Cinnamon/aria2/aria2.conf ~/.config/aria2/aria2.conf \
-    ~/Arch-Cinnamon/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc \
-    ~/Arch-Cinnamon/lf/colors ~/.config/lf/colors \
-    ~/Arch-Cinnamon/lf/icons ~/.config/lf/icons \
-    ~/Arch-Cinnamon/lf/lfrc ~/.config/lf/lfrc \
-    ~/Arch-Cinnamon/nvim/init.lua ~/.config/nvim/init.lua \
-    ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc
+# Create Necessary Folders and Files First
+xdg-user-dirs-update
+mkdir -p ~/.config/alacritty/ ~/.config/aria2/ ~/.config/fastfetch/ ~/.config/lf/ ~/.config/nvim/ ~/.local/share/Trash/files/
 
+# Copy
+cp ~/Arch-Cinnamon/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+cp ~/Arch-Cinnamon/aria2/aria2.conf ~/.config/aria2/aria2.conf
+cp ~/Arch-Cinnamon/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
+cp ~/Arch-Cinnamon/lf/colors ~/.config/lf/colors
+cp ~/Arch-Cinnamon/lf/icons ~/.config/lf/icons
+cp ~/Arch-Cinnamon/lf/lfrc ~/.config/lf/lfrc
+cp ~/Arch-Cinnamon/nvim/init.lua ~/.config/nvim/init.lua
+cp ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc
+
+# Remove the Cloned Directory
 rm -rf Arch-Cinnamon
 
 # Create a Python Virtual Environment
-python -m venv Documents/Projects/.venv
+python -m venv ~/Documents/Projects/.venv
+source ~/Documents/Projects/.venv/bin/activate
 pip install --upgrade pip
+deactivate
 
 ## Setup SSH
 sudo systemctl enable sshd
@@ -108,7 +111,7 @@ sudo systemctl enable sshd
 # ssh shashank@192.168.29.9
 
 # Change Shell to ZSH
-chsh -s $(which zsh)
+sudo chsh -s $(which zsh)
 
 # Remove Unnecessary Files
 rm -rf ~/.bash_history ~/.bash_logout ~/.bash_profile ~/.bashrc ~/.cache
