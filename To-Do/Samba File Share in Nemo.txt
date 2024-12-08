@@ -1,0 +1,97 @@
+To set up Samba for file sharing in Arch Linux using the Nemo file manager, follow these comprehensive steps:
+
+## Installation of Samba
+
+1. **Update Your System**  
+   Before installing Samba, ensure your system is up-to-date. Open a terminal and run:
+   ```bash
+   sudo pacman -Syu
+   ```
+
+2. **Install Samba**  
+   Install Samba and its client utilities with the following command:
+   ```bash
+   sudo pacman -S samba smbclient
+   ```
+
+3. **Verify Installation**  
+   After installation, verify that Samba is correctly installed by checking its version:
+   ```bash
+   smbd --version
+   ```
+
+## Configuration of Samba
+
+1. **Create the Configuration File**  
+   Samba does not come with a pre-configured `smb.conf` file. You need to create one by copying the default configuration:
+   ```bash
+   sudo cp /etc/samba/smb.conf.default /etc/samba/smb.conf
+   ```
+
+2. **Edit the Configuration File**  
+   Open the configuration file in your preferred text editor:
+   ```bash
+   sudo nano /etc/samba/smb.conf
+   ```
+   
+   Add a share definition at the end of the file. For example, to share a folder located at `/path/to/your/shared/folder`, add:
+   ```ini
+   [shared]
+   path = /path/to/your/shared/folder
+   writable = yes
+   guest ok = yes
+   create mask = 0700
+   directory mask = 0700
+   ```
+
+3. **Create the Shared Directory**  
+   If your shared folder does not exist, create it and set appropriate permissions:
+   ```bash
+   sudo mkdir -p /path/to/your/shared/folder
+   sudo chown -R nobody:nogroup /path/to/your/shared/folder
+   sudo chmod -R 0775 /path/to/your/shared/folder
+   ```
+
+4. **Add Samba Users**  
+   Samba uses its own user authentication. To add a user (e.g., `archuser`), run:
+   ```bash
+   sudo smbpasswd -a archuser
+   ```
+   
+5. **Enable and Start Samba Services**  
+   Enable and start the Samba services to allow sharing:
+   ```bash
+   sudo systemctl enable smbd.service
+   sudo systemctl start smbd.service
+   ```
+
+## Firewall Configuration
+
+If you have a firewall enabled, ensure that it allows Samba traffic. For example, if using `iptables`, you can add rules like this:
+```bash
+sudo iptables -A INPUT -p tcp --dport 445 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 139 -j ACCEPT
+```
+
+## Accessing the Shared Folder
+
+To access the shared folder from another machine:
+
+- On Windows, open File Explorer and type in the address bar:  
+  `\\<Your_Arch_Linux_IP_Address>\shared`
+  
+- On another Linux system, you can use `smbclient` or access it through your file manager.
+
+### Example Command for smbclient:
+```bash
+smbclient //192.168.x.x/shared -U archuser
+```
+
+By following these steps, you should have a fully functional Samba setup on Arch Linux that allows for easy file sharing through Nemo or any other file manager. Adjust configurations as needed based on your specific requirements for security and accessibility.
+
+Citations:
+[1] https://www.atlantic.net/dedicated-server-hosting/how-to-install-and-configure-samba-server-on-arch-linux/
+[2] https://shape.host/resources/implementing-samba-on-arch-linux-a-comprehensive-guide
+[3] https://wiki.archlinux.org/title/Samba
+[4] https://conslinux.com/samba-server-on-arch-linux-how-to-install-and-configure-for-network-sharing/
+[5] https://gist.github.com/suzker/562dc80e51841847e8d9

@@ -1,0 +1,18 @@
+1. auto login tty with user and asdf
+2. cron job for auto updating by auto switching on and off
+3. full automation include brave browser and cinnamon settings
+4. setup samba for file sharing in nemo
+5. see what can be done for libreoffice to make it as compatible with ms office documents as possible
+6. add gtk-3.0, mpv, screenshot (own), dotfiles (own) from iusearchbtw repo, also check for anything else if needed
+
+1. I just have a tty in my archlinux setup, on every reboot i have to enter my username (user) and password (asdf), how to skip this? always use these usernames and passwords?
+
+2. I want to create a cron job in archlinux. My computer should automatically boot on everyday (say at 12 AM) and run "sudo pacman -Syyu --noconfirm" and after successful completion then shutdown. Is this possible even if the laptop's lid is closed?
+
+3. brave browser backup and cinnamon de backup files check
+
+4. samba file share in nemo file check
+
+5. libreoffice compatibility file check
+
+6. add these to the original git repo
