@@ -1,0 +1,203 @@
+0. Prerequisites
+
+- Download latest ISO from BitTorrent on archlinux.org/download
+
+- Boot into live ISO and setup Wi-Fi
+
+=> iwctl
+=> station wlan0 connect "HOME JIO"
+- Enter Passphrase
+- ctrl+d (SIGINT)
+=> ping archlinux.org
+- ctrl+c (SIGINT)
+
+- Install latest version of ArchInstall
+
+=> sudo pacman -Syy archinstall
+=> archinstall --config https://bit.ly/4f10PCf --creds https://bit.ly/3D9cxxb
+
+- After Installing everything, don't chroot and reboot
+
+1. Update Everything and Clean
+
+=> sudo pacman -Syyu --noconfirm && sudo pacman -Rns --noconfirm $(pacman -Qdtq)
+
+2. Setup SSH:
+
+- Follow these steps alternatively, if any problem (No route to host) turn on/off Wi-Fi again.
+
+On MacBook:
+=> ifconfig (look for en0)
+=> brew install openssh
+=> ssh-keygen -t ed25519 -C "macbook-ssh-key"
+=> ssh-copy-id user@192.168.29.<ip>
+=> ssh user@192.168.29.<ip>
+
+On Linux:
+=> ip addr show wlan0
+=> sudo pacman -Syy openssh
+=> sudo systemctl enable sshd
+=> sudo systemctl start sshd
+=> ssh-keygen -t ed25519 -C "linux-ssh-key"
+=> ssh-copy-id shashank@192.168.29.<ip>
+=> ssh shashank@192.168.29.<ip>
+
+3. Install Necessary Applications from Official Repos
+
+=> sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
+
+3. Install Yay AUR Helper
+
+=> git clone https://aur.archlinux.org/yay.git
+=> cd yay && makepkg -si && cd
+=> sudo rm -rf yay
+
+4. Install Necessary Applications from AUR
+
+=> yay brave-bin
+=> yay auto-cpufreq
+=> yay mint-themes
+=> yay mint-y-icons
+=> yay file-roller-linuxmint (currently unavailable)
+=> yay jmtpfs
+=> yay gnome-calculator-gtk3
+
+5. Starting/Enabling Services
+
+=> chsh -s $(which zsh)
+=> sudo systemctl start touchegg.service
+=> sudo systemctl enable touchegg.service
+=> sudo systemctl mask power-profiles-daemon.service
+=> sudo systemctl enable --now auto-cpufreq.service
+=> sudo systemctl start NetworkManager.service
+=> sudo systemctl enable NetworkManager.service
+
+- Login to TTY, not GUI
+=> sudo systemctl disable lightdm.service
+=> sudo systemctl set-default multi-user.target
+
+6. Turn off Suspend on Lid Close 
+
+=> sudo nvim /etc/systemd/logind.conf
+- Set ignore to disable any action when the lid is closed
+
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+
+=> sudo systemctl restart systemd-logind
+
+7. Uninstall All Unnecessary Apps and Replace Apps with Lightweight and Better Alternatives — Create a Bloat Free Barebones System
+
+8. Setup Auto Login (if using GUI as default)
+
+=> sudo nvim /etc/lightdm/lightdm.conf
+
+- Change the following lines under the [Seat:*] section
+
+=> autologin-user=user
+=> autologin-user-timeout = 0
+=> autologin-session = cinnamon
+
+- Edit the PAM configuration
+
+=> sudo nvim /etc/pam.d/lightdm
+
+- Add this Line at the End of the File
+
+=> auth required pam_succeed_if.so user ingroup nopasswdlogin
+
+- Create the 'autologin' and 'nopasswdlogin' Group and Add the User to these Groups
+
+=> sudo groupadd -r autologin 
+=> sudo groupadd -r nopasswdlogin
+=> sudo gpasswd -a user autologin
+=> sudo gpasswd -a user nopasswdlogin
+
+9. Remove Chromium Password Prompt on Auto Login
+
+=> rm ~/.local/share/keyrings/*
+
+10. Remove Repeated Sudo Authentication Prompting in CLI
+
+=> sudo EDITOR=nvim visudo
+
+- Add the Following Line to the Bottom of the File:
+
+=> user ALL=(ALL) NOPASSWD: ALL
+
+11. Improve Performance
+
+(i) Turn Off Mitigations and Skip Grub on Login
+
+=> sudo nvim /etc/default/grub
+
+- Add this Flag to the Existing GRUB_CMDLINE_LINUX_DEFAULT
+
+=> GRUB_CMDLINE_LINUX_DEFAULT="mitigations=off"
+
+=> GRUB_TIMEOUT=0
+
+- Reload GRUB
+
+=> sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+(ii) Pacman Configuration Edit
+
+- Uncomment these Flags in /etc/pacman.conf
+=> Color 
+=> Parallel Downloads
+
+- Add this Flag to /etc/pacman.conf
+=> ILoveCandy
+
+- Modify this Flag in /etc/makepkg.conf, threads as j4 (No.of Threads for use in compiling)
+=> MAKEFLAGS="-j4"
+
+(iii) Remove Unnecessary Startup Apps, Files, everything
+
+=> sudo rm -rf .bash_history .bash_logout .bash_profile .bashrc .cache
+
+11. Create and Copy Configs from GitHub
+
+- Create necessary files and folders
+=> xdg-user-dirs-update
+=> mkdir -p ~/Documents/Projects/YT-Digest/
+
+=> git clone "https://github.com/msrsaditya/Arch-Cinnamon"
+
+=> sudo mkdir -p ~/.config/alacritty/
+=> sudo mkdir -p ~/.config/aria2/
+=> sudo mkdir -p ~/.config/fastfetch/
+=> sudo mkdir -p ~/.config/lf/
+=> sudo mkdir -p ~/.config/nvim/
+=> mkdir -p ~/.local/share/Trash/files/
+
+=> sudo cp ~/Arch-Cinnamon/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+=> sudo cp ~/Arch-Cinnamon/aria2/aria2.conf ~/.config/aria2/aria2.conf
+=> sudo cp ~/Arch-Cinnamon/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
+=> sudo cp ~/Arch-Cinnamon/lf/colors ~/.config/lf/colors
+=> sudo cp ~/Arch-Cinnamon/lf/icons ~/.config/lf/icons
+=> sudo cp ~/Arch-Cinnamon/lf/lfrc ~/.config/lf/lfrc
+=> sudo cp ~/Arch-Cinnamon/nvim/init.lua ~/.config/nvim/init.lua
+=> sudo cp ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc
+=> sudo cp ~/Arch-Cinnamon/YT-Digest.sh ~/Documents/Projects/YT-Digest/
+=> sudo cp ~/Arch-Cinnamon/style.css ~/Documents/Projects/YT-Digest/
+=> sudo touch ~/Documents/Projects/YT-Digest/URL.txt
+=> sudo chmod +x ~/Documents/Projects/YT-Digest/YT-Digest.sh
+
+sudo rm -rf Arch-Cinnamon
+
+12. Create a Python Virtual Environment
+
+=> python -m venv Documents/Projects/.venv
+=> pip install --upgrade pip
+=> pip install youtube-transcript-api
+
+13. Modify Names and Icons in Menu to be More Straight-Forward and Intuitive
+
+13. Reference Helper Guide — ArchWiki (wiki.archlinux.org)
+
+14. Date and Time Formats
+Date Format -- %l:%M:%S %p
+Tooltip Format -- %A, %B %e, %Y
