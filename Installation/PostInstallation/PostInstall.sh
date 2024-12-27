@@ -82,7 +82,7 @@ source ~/Documents/Projects/.venv/bin/activate
 pip install --upgrade pip
 deactivate
 
-# Change Shell to ZSH
+# Change Shell to ZSH (Need to Enter Password)
 chsh -s $(which zsh)
 
 # Remove Unnecessary Files
