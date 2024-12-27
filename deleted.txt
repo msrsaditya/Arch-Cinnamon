@@ -10,8 +10,6 @@
         }
     },
 
-
-
 # alias display-on="sudo vbetool dpms on"
 # alias display-off="sudo vbetool dpms off"
 # alias gui="sudo systemctl start lightdm.service NetworkManager.service touchegg.service"
@@ -38,13 +36,10 @@
 # EOL
 # sudo systemctl enable getty@tty1.service
 
-
-
 # Turn off Suspend on Lid Close
 # sudo sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLidSwitchDocked=/d' /etc/systemd/logind.conf
 # echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf
 # sudo systemctl restart systemd-logind.service
-
 
 ## Setup SSH
 # sudo systemctl enable sshd
