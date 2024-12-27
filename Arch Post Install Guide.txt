@@ -201,3 +201,20 @@ sudo rm -rf Arch-Cinnamon
 14. Date and Time Formats
 Date Format -- %l:%M:%S %p
 Tooltip Format -- %A, %B %e, %Y
+
+15. Themes and Fonts
+Bibata-Modern-Classic
+Mint-Y-Dark-Aqua
+Mint-Y-Sand
+Mint-Y-Dark-Aqua
+
+Ubuntu Regular 10
+Ubuntu Regular 10
+Sans Regular 10
+DejaVu Sans Mono Book 10
+Ubuntu Medium 10
+
+1.0
+slight
+rgba
+rgb
