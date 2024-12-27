@@ -25,15 +25,12 @@ cd
 rm -rf yay
 
 # Install Necessary Applications from AUR
-yay -S --noconfirm brave-bin gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
-# file-roller-linuxmint
+yay -S --noconfirm auto-cpufreq brave-bin file-roller-linuxmint gnome-calculator-gtk3 jmtpfs mint-themes mint-y-icons
 
 # Update Everything and Clean, Again
 sudo pacman -Syyu --noconfirm && sudo pacman -Rns --noconfirm $(pacman -Qdtq)
 
-### Login Behavior
-
-## Bootloader
+## Login Behavior
 
 # Turn Off Mitigations and Skip Grub on Login
 sudo sed -i '/^GRUB_CMDLINE_LINUX_DEFAULT=/ s/"$/ mitigations=off"/' /etc/default/grub
@@ -41,22 +38,8 @@ sudo sed -i '/^GRUB_TIMEOUT=/d' /etc/default/grub
 echo "GRUB_TIMEOUT=0" | sudo tee -a /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-## TTY
-
-# Login to TTY, not GUI by Default
-sudo systemctl set-default multi-user.target
-
-# TTY AutoLogin
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf >/dev/null <<EOL
-[Service]
-ExecStart=
-ExecStart=-/usr/bin/agetty --autologin user --noclear %I linux
-ExecStartPre=-/bin/sh -c "TERM=linux setterm --blank 0 >/dev/tty1"
-EOL
-sudo systemctl enable getty@tty1.service
-
-## GUI
+# System Services
+sudo systemctl enable --now auto-cpufreq.service lightdm.service NetworkManager.service touchegg.service
 
 # Setup Auto Login in LightDM (for using GUI as default)
 sudo sed -i '/^autologin-user=/d; /^autologin-user-timeout=/d; /^autologin-session=/d' /etc/lightdm/lightdm.conf
@@ -70,11 +53,6 @@ sudo gpasswd -a user nopasswdlogin
 
 # Remove Chromium Password Prompt on Auto Login
 rm ~/.local/share/keyrings/*
-
-# Turn off Suspend on Lid Close
-sudo sed -i '/^HandleLidSwitch=/d; /^HandleLidSwitchExternalPower=/d; /^HandleLidSwitchDocked=/d' /etc/systemd/logind.conf
-echo -e "HandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore" | sudo tee -a /etc/systemd/logind.conf
-sudo systemctl restart systemd-logind.service
 
 ## Copy Configs from GitHub
 
@@ -102,13 +80,6 @@ python -m venv ~/Documents/Projects/.venv
 source ~/Documents/Projects/.venv/bin/activate
 pip install --upgrade pip
 deactivate
-
-## Setup SSH
-sudo systemctl enable sshd
-# ssh-keygen -t ed25519 -C "linux-ssh-key"
-# ssh-copy-id shashank@192.168.29.9
-# ip addr show wlan0
-# ssh shashank@192.168.29.9
 
 # Change Shell to ZSH
 chsh -s $(which zsh)
