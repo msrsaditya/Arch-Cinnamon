@@ -15,7 +15,7 @@ sudo sed -i '/ParallelDownloads = 10/a ILoveCandy' /etc/pacman.conf
 sudo sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j4"/' /etc/makepkg.conf
 
 # Install Necessary Applications from Official Repos
-sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs networkmanager nemo neovim noto-fonts-emoji openssh otf-font-awesome pandoc-cli p7zip python python-pip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip upower vbetool wget wireless_tools xclip xed xdg-utils xdg-user-dirs yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
+sudo pacman -Syyu --noconfirm alacritty aria2 bleachbit cinnamon curl eog evince fastfetch ffmpeg fzf git gvfs-mtp htop lf libreoffice-fresh lightdm man-db mpv mtpfs nemo neovim networkmanager noto-fonts-emoji openssh otf-font-awesome p7zip pandoc-cli python python-pip reflector tar touchegg ttf-jetbrains-mono-nerd unrar unzip wget xclip xdg-user-dirs xdg-utils xed yt-dlp zsh zsh-autosuggestions zsh-syntax-highlighting
 
 # Install Yay AUR Helper
 git clone https://aur.archlinux.org/yay.git
