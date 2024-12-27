@@ -6,6 +6,10 @@
 # ping archlinux.org
 # sudo pacman -Syy archinstall
 
+## How to Fix archinstall not Working
+
+# sudo pacman -Syy archinstall archlinux-keyring python python-pyparted python-simple-term-menu python-annotated-types python-pydantic python-pydantic-core python-typing_extensions
+
 ## Use Either Full Link or Shortened Bitly Link
 
 # Pre-Installation (~15 Minutes)
