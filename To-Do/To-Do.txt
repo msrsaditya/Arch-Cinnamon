@@ -1,24 +1,17 @@
-1. auto login tty with user and asdf
-2. cron job for auto updating by auto switching on and off
-3. full automation include brave browser and cinnamon settings
-4. setup samba for file sharing in nemo
-5. see what can be done for libreoffice to make it as compatible with ms office documents as possible
-6. add gtk-3.0, mpv, screenshot (own), dotfiles (own) from iusearchbtw repo, also check for anything else if needed
+1. cron job for auto updating by auto switching on and off
+2. full automation include brave browser and cinnamon settings
+3. setup samba for file sharing in nemo
+4. see what can be done for libreoffice to make it as compatible with ms office documents as possible
+5. add gtk-3.0, mpv, screenshot (own), dotfiles (own) from iusearchbtw repo, also check for anything else if needed
 
-1. I just have a tty in my archlinux setup, on every reboot i have to enter my username (user) and password (asdf), how to skip this? always use these usernames and passwords?
+I. I want to create a cron job in archlinux. My computer should automatically boot on everyday (say at 12 AM) and run "sudo pacman -Syyu --noconfirm" and after successful completion then shutdown. Is this possible even if the laptop's lid is closed?
 
-2. I want to create a cron job in archlinux. My computer should automatically boot on everyday (say at 12 AM) and run "sudo pacman -Syyu --noconfirm" and after successful completion then shutdown. Is this possible even if the laptop's lid is closed?
+II. brave browser backup and cinnamon de backup files check
 
-3. brave browser backup and cinnamon de backup files check
+III. samba file share in nemo file check
 
-4. samba file share in nemo file check
+IV. libreoffice compatibility file check
 
-5. libreoffice compatibility file check
-
-6. add these to the original git repo
-
-1. check for themes, fonts, sizes etc. used in linuxmint official
-2. fix libreoffice after everything -- dad perfect, also look at other to-do's
-3. download instructions for piper voice and yt digest setup
+V. add these to the original git repo
 
 Create webpage for pre install and post install, where only sensible options can be changed like user, password etc. and based on the selection, a new script will be created , which can be uploaded to 0x0 st, and instructions on how to install will be provided , if followed, full installation can be done
