@@ -39,6 +39,7 @@ echo "GRUB_TIMEOUT=0" | sudo tee -a /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 # System Services
+sudo systemctl mask power-profiles-daemon.service
 sudo systemctl enable --now auto-cpufreq.service lightdm.service NetworkManager.service touchegg.service
 
 # Setup Auto Login in LightDM (for using GUI as default)
