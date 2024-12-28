@@ -72,6 +72,7 @@ cp ~/Arch-Cinnamon/lf/icons ~/.config/lf/icons
 cp ~/Arch-Cinnamon/lf/lfrc ~/.config/lf/lfrc
 cp ~/Arch-Cinnamon/nvim/init.lua ~/.config/nvim/init.lua
 cp ~/Arch-Cinnamon/zsh/zshrc ~/.zshrc
+cp ~/Arch-Cinnamon/Wallpaper.jpg ~/Downloads/
 
 # Remove the Cloned Directory
 rm -rf Arch-Cinnamon
