@@ -1,0 +1,89 @@
+1. Update Everything and Clean
+
+=> sudo dnf update && sudo dnf upgrade && sudo dnf autoremove
+
+2. Add RPM Fusion (rpmfusion.org)
+
+=> sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+=> sudo dnf config-manager --enable fedora-cisco-openh264
+=> sudo dnf groupupdate core
+=> sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+=> sudo dnf groupupdate multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+=> sudo dnf groupupdate sound-and-video
+
+3. Add Flatpak
+
+=> flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+4. Install Brave Web Browser
+
+=> curl -fsS https://dl.brave.com/install.sh | sh
+
+5. Fix Battery life on Laptops with Auto CPUFreq (Check the Project Git Repo for More Information)
+
+=> git clone https://github.com/AdnanHodzic/auto-cpufreq.git
+=> cd auto-cpufreq && sudo ./auto-cpufreq-installer
+=> sudo auto-cpufreq --install
+=> sudo auto-cpufreq --live
+=> sudo systemctl enable auto-cpufreq
+=> sudo systemctl start auto-cpufreq
+
+6. Uninstall All Unnecessary Apps and Replace Apps with Lightweight and Better Alternatives — Create a Bloat Free Barebones System
+
+7. Remove Unnecessary Startup Apps from Settings
+
+8. Remove Chromium Password Prompt on Auto Login:
+
+=> rm ~/.local/share/keyrings/*
+
+9. Remove Repeated Sudo Authentication Prompting in CLI
+
+=> sudo EDITOR=nvim visudo
+
+- Add the Following Line to the Bottom of the File:
+
+=> $USER ALL=(ALL) NOPASSWD: ALL
+
+10. Improve Performance
+
+(i) Turn Off Mitigations and Skip Grub on Login
+
+=> sudo $EDITOR /etc/default/grub
+
+- Add this Flag to the Existing GRUB_CMDLINE_LINUX_DEFAULT
+
+=> GRUB_CMDLINE_LINUX_DEFAULT="mitigations=off"
+
+=> GRUB_TIMEOUT=0
+
+- Reload GRUB
+
+=> sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+(ii) Decrease Swappiness Value
+
+=> sudo $EDITOR /etc/sysctl.conf
+
+- Add this Line to the End of the File
+
+=> vm.swappiness=25
+
+(iii) DNF Configuration Edit:
+
+=> sudo nano /etc/dnf/dnf.conf
+=> defaultyes=True
+
+11. Change Hostname
+
+=> sudo hostnamectl set-hostname Fedora
+
+12. Use Zsh Shell with zsh-autocomplete and zsh-syntax-highlighting Plugins
+
+=> chsh -s $(which zsh)
+
+- And then Logout and Login
+- Also Import ZSH Config from Git 
+
+13. Install Necessary Applications
+
+14. Reference Helper Guide — Fedora Documentation (https://docs.fedoraproject.org/en-US/docs/)

@@ -1,0 +1,77 @@
+0. Install LinuxMint from a WorldWide Mirror
+
+1. Use Official Linux Mint and Ubuntu Mirrors from Software Sources — Only WorldWide
+
+2. Update Everything and Clean
+
+=> sudo apt update && sudo apt upgrade && sudo apt autoremove
+
+- Also, Enable Auto Updates in Update Manager
+
+3. Install Brave Web Browser
+
+=> curl -fsS https://dl.brave.com/install.sh | sh
+
+4. Fix Battery life on Laptops with Auto CPUFreq (Check the Project Git Repo for More Information)
+
+=> git clone https://github.com/AdnanHodzic/auto-cpufreq.git
+=> cd auto-cpufreq && sudo ./auto-cpufreq-installer
+=> sudo auto-cpufreq --install
+=> sudo auto-cpufreq --live
+=> sudo systemctl enable auto-cpufreq
+=> sudo systemctl start auto-cpufreq
+
+5. Uninstall All Unnecessary Apps and Replace Apps with Lightweight and Better Alternatives — Create a Bloat Free Barebones System
+
+6. Remove Unnecessary Startup Apps from Settings
+
+7. Remove Chromium Password Prompt on Auto Login:
+
+=> rm ~/.local/share/keyrings/*
+
+9. Remove Repeated Sudo Authentication Prompting in CLI
+
+=> sudo EDITOR=nvim visudo
+
+- Add the Following Line to the Bottom of the File:
+
+=> $USER ALL=(ALL) NOPASSWD: ALL
+
+10. Improve Performance
+
+(i) Turn Off Mitigations and Skip Grub on Login
+
+=> sudo $EDITOR /etc/default/grub
+
+- Add this Flag to the Existing GRUB_CMDLINE_LINUX_DEFAULT
+
+=> GRUB_CMDLINE_LINUX_DEFAULT="mitigations=off"
+
+=> GRUB_TIMEOUT=0
+
+- Reload GRUB
+
+=> sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+(ii) Decrease Swappiness Value
+
+=> sudo $EDITOR /etc/sysctl.conf
+
+- Add this Line to the End of the File
+
+=> vm.swappiness=25
+
+(iii) Install Nala Frontend for APT
+
+=> sudo apt install nala
+
+11. Use Zsh Shell with zsh-autocomplete and zsh-syntax-highlighting Plugins
+
+=> chsh -s $(which zsh)
+
+- And then Logout and Login
+- Also Import ZSH Config from Git 
+
+12. Install Other Applications
+
+13. Reference Helper Guide — Easy Linux Tips Project (https://easylinuxtipsproject.blogspot.com/p/1.html)
