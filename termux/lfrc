@@ -1,0 +1,64 @@
+# Options
+set shell bash
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set cursorpreviewfmt "\033[7;2m"
+set ignorecase true
+set icons true
+
+# Key Bindings
+map <enter> shell
+map . set hidden!
+map x cut
+map y copy
+map p paste
+map c clear
+map r reload
+map E extract
+map d delete
+map <c-t> push :touch<space>
+map <c-n> push :mkdir<space>
+map <c-r> push :rename<space>
+map gg top
+map gh cd ~/
+map gD cd ~/storage/shared/Documents
+map gd cd ~/storage/downloads
+map gp cd ~/storage/shared/Pictures
+map gc cd ~/.config
+map gs cd $PREFIX/bin/
+
+# Opening Files
+cmd open &{{
+    case $(file --mime-type -Lb $f) in
+        text/*) lf -remote "send $id \$$EDITOR \$fx";;
+        *) for f in $fx; do termux-open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+# File Operations
+cmd touch $touch "$(echo $* | tr ' ' '\ ')"
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+
+# Delete Files
+cmd delete ${{
+    set -f
+    printf "$fx\n"
+    printf "delete?[y/n] "
+    read ans
+    [ "$ans" = "y" ] && rm -rf $fx
+}}
+
+# Extracting Files
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
