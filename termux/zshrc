@@ -1,0 +1,62 @@
+# Initialisation
+autoload -U colors && colors
+PS1="%B%{$fg[white]%}[%{$fg[white]%}%n%{$fg[white]%}@%{$fg[white]%}%M %{$fg[cyan]%}%~%{$fg[white]%}]%{$reset_color%}$%b "
+
+# Options
+setopt share_history
+setopt append_history
+setopt autocd
+
+# History
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.histfile
+
+## Aliases
+
+# pkg
+alias install="pkg install"
+alias remove="pkg uninstall"
+alias update="pkg update;pkg upgrade"
+alias clean="pkg autoclean;pkg clean"
+alias search="pkg search"
+alias sync="termux-change-repo"
+alias list="pkg list-installed"
+
+# Development
+whois() {
+  local original_dir=$(pwd)
+  source .venv/bin/activate
+  python3 truecaller.py "$1"
+  deactivate
+  cd "$original_dir"
+}
+
+alias on="source ~/.venv/bin/activate"
+alias off="deactivate"
+
+# Environment Variables
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# LF to Switch Directories
+lfcd () {
+    tmp="$(mktemp -uq)"
+    trap "rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT" HUP INT QUIT TERM PWR EXIT
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+
+# Key Bindings
+bindkey "^[[1;3D" backward-word # option + <-
+bindkey "^[[1;3C" forward-word  # option + ->
+bindkey "^A" beginning-of-line  # control + a
+bindkey "^L" end-of-line        # control + l
+bindkey -s "^o" "^ulfcd\n"      # control + o
+
+# Plugins
+source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
