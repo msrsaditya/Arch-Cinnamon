@@ -1,11 +1,23 @@
 # Initialisation
+sshd
+termux-wake-lock
 autoload -U colors && colors
-PS1="%B%{$fg[white]%}[%{$fg[white]%}%n%{$fg[white]%}@%{$fg[white]%}%M %{$fg[cyan]%}%~%{$fg[white]%}]%{$reset_color%}$%b "
+lip() {
+ ip=$(ifconfig 2>/dev/null \
+      | grep -oE 'inet [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' \
+      | awk '{print $2}' \
+      | grep -v '^127\.' \
+      | tail -n1)
+ echo "$ip"
+}
+PS1='%B%{$fg[white]%}[%{$fg[white]%}%n%{$fg[white]%}@Android:%{$fg[white]%}$(lip)%{$fg[white]%} %{$fg[cyan]%}%~%{$fg[white]%}]%{$reset_color%}$%b '
 
 # Options
 setopt share_history
 setopt append_history
+setopt hist_ignore_dups
 setopt autocd
+setopt PROMPT_SUBST
 
 # History
 HISTSIZE=100000
@@ -14,11 +26,14 @@ HISTFILE=~/.histfile
 
 ## Aliases
 
+# System
+alias pwd="pwd -P"
+
 # pkg
-alias install="pkg install"
-alias remove="pkg uninstall"
-alias update="pkg update;pkg upgrade"
-alias clean="pkg autoclean;pkg clean"
+alias install="pkg install -y"
+alias remove="pkg uninstall -y"
+alias update="pkg update && pkg upgrade -y"
+alias clean="pkg autoclean -y && pkg clean -y"
 alias search="pkg search"
 alias sync="termux-change-repo"
 alias list="pkg list-installed"
@@ -27,13 +42,24 @@ alias list="pkg list-installed"
 whois() {
   local original_dir=$(pwd)
   source .venv/bin/activate
-  python3 truecaller.py "$1"
+  python3 truecaller.py "$*"
   deactivate
   cd "$original_dir"
 }
 
-alias on="source ~/.venv/bin/activate"
-alias off="deactivate"
+alias yt='noglob yt_func'
+yt_func() {
+  local original_dir=$(pwd)
+  source .venv/bin/activate
+  python3 YT.py "$1"
+  deactivate
+  cd "$original_dir"
+}
+
+#alias on="source ~/.venv/bin/activate"
+#alias off="deactivate"
+alias get="bash get.sh"
+alias send="bash send.sh"
 
 # Environment Variables
 export EDITOR="nvim"
